@@ -1,0 +1,145 @@
+apply plugin: 'com.android.application'
+
+ext.versionMajor = 0
+ext.versionMinor = 0
+ext.versionPatch = 1
+ext.minimumSdkVersion = 21
+repositories {
+    jcenter()
+    google()
+}
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+
+    signingConfigs {
+        config {
+            keyAlias ALIAS_IGNITED
+            keyPassword PASSWORD_ALIAS_IGNITED
+            storeFile file(FILE_KEYSTORE_IGNITED)
+            storePassword PASSWORD_KEYSTORE_IGNITED
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/NOTICE'
+    }
+
+    defaultConfig {
+        applicationId "com.ignitedapp.encurit"
+        targetSdkVersion 27
+        minSdkVersion project.ext.minimumSdkVersion
+        versionCode generateVersionCode() // 19|01|02|03 MaxVal = 2100000000
+        versionName generateVersionName() // v1.2.3
+        multiDexEnabled true
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+    buildTypes {
+
+        release {
+            minifyEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            debuggable false
+            signingConfig signingConfigs.config
+
+            buildConfigField "String", "SERVER_URL", "\"http://ignitedapp.com/index.php/\""
+            resValue "string", "authority_provider", "\"com.ignitedapp.encurit.fileprovider\""
+            resValue "string", "app_name", "\"School Management\""
+        }
+
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationIdSuffix '.debug'
+            // User facing version name suffix that we
+            // usually show in About section of the app
+            versionNameSuffix = '.DEBUG'
+
+            debuggable true
+            buildConfigField "String", "SERVER_URL", "\"http://ignitedapp.com/index.php/\""
+            resValue "string", "authority_provider", "\"com.ignitedapp.encurit.debug.fileprovider\""
+            resValue "string", "app_name", "\"School Management Debug\""
+        }
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions { checkReleaseBuilds false }
+}
+
+/**
+ * Refer https://medium.com/@maxirosson/versioning-android-apps-d6ec171cfd82 for more
+ * information on app versioning. We have adapted the information in the link above
+ * as per our needs.
+ */
+private Integer generateVersionCode() {
+    return ext.minimumSdkVersion * 1000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
+}
+
+private String generateVersionName() {
+    return "${ext.versionMajor}.${ext.versionMinor}.${ext.versionPatch}"
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // GoogleSupport
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
+    // Required -- JUnit 4 framework
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support:support-annotations:27.1.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:2.2.1') {
+        // Necessary to avoid version conflicts
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+    }
+
+    // SuperRecyclerView
+    implementation 'com.malinskiy:superrecyclerview:1.1.4'
+
+    // GoogleGson
+    implementation 'com.google.code.gson:gson:2.8.2'
+
+    // EventBus
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+
+    // RxAndroid
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.0'
+
+    // Universal image loader
+    implementation files('libs/universal-image-loader-1.9.5.jar')
+}

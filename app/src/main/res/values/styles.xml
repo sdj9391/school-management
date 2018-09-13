@@ -1,0 +1,58 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!--   Text color to the action menu choices -->
+        <item name="actionMenuTextColor">@android:color/white</item>
+
+        <!-- Used this to hide divider in navigation view
+        if its effecting list view divider then we need to set it explicitly -->
+        <item name="android:listDivider">@android:color/transparent</item>
+        <item name="searchViewStyle">@style/ActionBarSearchViewStyle</item>
+        <item name="android:actionBarWidgetTheme">@style/ThemeOverlay.AppCompat</item>
+
+        <item name="navigationIcon">@drawable/ic_navigation</item>
+
+        <item name="titleTextColor">@android:color/white</item>
+        <item name="subtitleTextColor">@android:color/white</item>
+
+        <!--Default background color of the application-->
+        <item name="android:windowBackground">@color/background</item>
+    </style>
+
+    <!-- SearchView styles-->
+    <!-- Search view in action bar -->
+    <style name="ActionBarSearchViewStyle" parent="Theme.AppCompat">
+        <item name="searchIcon">@drawable/ic_search</item>
+        <item name="closeIcon">@drawable/ic_close</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="android:editTextColor">@android:color/white</item>
+    </style>
+
+    <style name="CardViewClickable" parent="CardView">
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardCornerRadius">4dp</item>
+    </style>
+
+    <style name="CardViewNonClickable" parent="CardViewClickable">
+        <item name="cardElevation">0dp</item>
+        <item name="android:clickable">false</item>
+    </style>
+
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+</resources>
