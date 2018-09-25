@@ -2,7 +2,7 @@ package com.schoolmanagement.android.utils;
 
 import android.util.Log;
 
-import com.schoolmanagement.BuildConfig;
+import com.schoolmanagement.android.BuildConfig;
 
 public class DebugLog {
 

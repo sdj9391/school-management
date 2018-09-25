@@ -15,10 +15,10 @@ android {
 
     signingConfigs {
         config {
-            keyAlias ALIAS_IGNITED
-            keyPassword PASSWORD_ALIAS_IGNITED
-            storeFile file(FILE_KEYSTORE_IGNITED)
-            storePassword PASSWORD_KEYSTORE_IGNITED
+            keyAlias ALIAS_SCHOOL_MGMT
+            keyPassword PASSWORD_ALIAS_SCHOOM_MGMT
+            storeFile file(FILE_KEYSTORE_SCHOOL_MGMT)
+            storePassword PASSWORD_KEYSTORE_SCHOOL_MGMT
         }
     }
 
@@ -30,7 +30,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.ignitedapp.encurit"
+        applicationId "com.school.management"
         targetSdkVersion 27
         minSdkVersion project.ext.minimumSdkVersion
         versionCode generateVersionCode() // 19|01|02|03 MaxVal = 2100000000
@@ -47,20 +47,22 @@ android {
     buildTypes {
 
         release {
+            debuggable false
             minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            debuggable false
             signingConfig signingConfigs.config
 
-            buildConfigField "String", "SERVER_URL", "\"http://ignitedapp.com/index.php/\""
-            resValue "string", "authority_provider", "\"com.ignitedapp.encurit.fileprovider\""
+            buildConfigField "String", "SERVER_URL", "\"http://school.management.com/index.php/\""
+            resValue "string", "authority_provider", "\"com.school.management.fileprovider\""
             resValue "string", "app_name", "\"School Management\""
         }
 
         debug {
+            debuggable true
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             applicationIdSuffix '.debug'
@@ -68,11 +70,29 @@ android {
             // usually show in About section of the app
             versionNameSuffix = '.DEBUG'
 
-            debuggable true
-            buildConfigField "String", "SERVER_URL", "\"http://ignitedapp.com/index.php/\""
-            resValue "string", "authority_provider", "\"com.ignitedapp.encurit.debug.fileprovider\""
+            buildConfigField "String", "SERVER_URL", "\"http://school.management.com/index.php/\""
+            resValue "string", "authority_provider", "\"com.school.management.debug.fileprovider\""
             resValue "string", "app_name", "\"School Management Debug\""
         }
+    }
+
+    applicationVariants.all { variant ->
+
+        // Generate values Content Authority & Account Type used
+        // in Sync Adapter, Content Provider, Authenticator
+        def valueAccountType = applicationId + 'syncadapter.account'
+        def valueContentAuthority = applicationId + 'provider.authority'
+
+        // Generate fields in Resource string file generated.xml
+        resValue "string", "sync_account_type", valueAccountType
+        resValue "string", "sync_provider_content_authority", valueContentAuthority
+
+        // Generate fields in BuildConfig class
+        buildConfigField "String", "SYNC_ACCOUNT_TYPE", '"' + valueAccountType + '"'
+        buildConfigField "String", "SYNC_PROVIDER_CONTENT_AUTHORITY", '"' + valueContentAuthority + '"'
+
+        // Replace field ${valueContentAuthority} in AndroidManifest.xml
+        mergedFlavor.manifestPlaceholders = [valueContentAuthority: valueContentAuthority]
     }
 
     compileOptions {

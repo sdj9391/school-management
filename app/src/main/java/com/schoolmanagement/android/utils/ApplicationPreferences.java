@@ -3,7 +3,7 @@ package com.schoolmanagement.android.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.schoolmanagement.BuildConfig;
+import com.schoolmanagement.android.BuildConfig;
 
 /**
  *

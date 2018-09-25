@@ -21,7 +21,7 @@ import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.schoolmanagement.R;
+import com.schoolmanagement.android.R;
 import com.schoolmanagement.android.models.ApiError;
 import com.schoolmanagement.android.restapis.AppApiInstance;
 
@@ -483,5 +483,9 @@ public class AppUtils {
         drawable.draw(canvas);
 
         return bitmap;
+    }
+
+    public static boolean isValidMobileNum(String mobileNum) {
+        return mobileNum != null && mobileNum.length() == 10;
     }
 }

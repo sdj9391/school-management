@@ -6,7 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
-import com.schoolmanagement.R;
+import com.schoolmanagement.android.R;
+
 
 public class CommonActivity extends BaseActivity {
 

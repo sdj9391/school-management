@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.schoolmanagement.R;
+import com.schoolmanagement.android.R;
 import com.schoolmanagement.android.utils.DebugLog;
 
 public class BaseActivity extends AppCompatActivity {

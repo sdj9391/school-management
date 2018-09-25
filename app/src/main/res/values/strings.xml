@@ -9,4 +9,9 @@
     <string name="error_server_503unavailable">Sorry! Service unavailable</string>
     <string name="error_general">Sorry! Something went wrong</string>
     <string name="msg_no_internet">No internet connection</string>
+    <string name="hint_mobile_num">Enter mobile number</string>
+    <string name="hint_password">Enter password</string>
+    <string name="label_sing_in">Sign In</string>
+    <string name="error_required">Required</string>
+    <string name="error_invalid_mobile_num">Invalid Mobile Number</string>
 </resources>

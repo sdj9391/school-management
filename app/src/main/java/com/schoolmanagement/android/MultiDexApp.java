@@ -9,10 +9,11 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.schoolmanagement.BuildConfig;
-import com.schoolmanagement.android.utils.AppConfig;
+import com.nostra13.universalimageloader.utils.L;
+import com.schoolmanagement.android.models.AppConfig;
+import com.schoolmanagement.android.models.User;
+import com.schoolmanagement.android.sync.AppAccountManager;
 import com.schoolmanagement.android.utils.AppUtils;
-import com.schoolmanagement.android.utils.ApplicationPreferences;
 import com.schoolmanagement.android.utils.DebugLog;
 
 public class MultiDexApp extends MultiDexApplication {
@@ -26,13 +27,12 @@ public class MultiDexApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        ApplicationPreferences.init(getApplicationContext());
 
         initImageLoader(this);
-        // initAppConfig();
+        initHealthPoleConfig();
 
         // disable logging of universal image loader
-        // L.writeLogs(false);
+        L.writeLogs(false);
 
         // To enable Crashlytics debugger manually
         /*final Fabric fabric = new Fabric.Builder(this)
@@ -91,24 +91,34 @@ public class MultiDexApp extends MultiDexApplication {
         ImageLoader.getInstance().init(config.build());
     }
 
-
-    /*public void initAppConfig() {
-        AppConfig.getInstance().setServerUrl(BuildConfig.SERVER_URL);
-
-        User user = ApplicationPreferences.get().getCurrentUser();
+    /**
+     * To initialize {@link AppConfig} object
+     * which is user to store jwtToken and other user information.
+     */
+    public void initHealthPoleConfig() {
+        User user = new AppAccountManager(getBaseContext(), "" /*BuildConfig.SYNC_ACCOUNT_TYPE*/).getUserDetails();
         if (user != null) {
             String token = user.getToken();
+            String mobileNumber = user.getMobileNumber();
 
-            DebugLog.d("token: " + token);
-            if (AppUtils.isEmpty(token)) {
-                DebugLog.e("User is logged in. However, token is null. Token: " + token);
+            if (AppUtils.isEmpty(token) /*||
+                    BootUtils.isEmpty(mobileNumber)*/) {
+                // we have stopped checking mobile number validity here since
+                // Nov 2017, as decided to move to email based registration.
+                DebugLog.e("User is logged in. However, something is null jwtToken: " + token +
+                        " mobileNumber: " + mobileNumber);
             } else {
-                DebugLog.v("User is logged in. token found");
-                AppConfig.getInstance().setToken(token);
+                AppConfig.getInstance().setJwtToken(token);
+                AppConfig.getInstance().setRole("");
             }
         } else {
-            DebugLog.w("Token not found found");
-            AppConfig.getInstance().setToken(null);
+            AppConfig.getInstance().setJwtToken(null);
+            AppConfig.getInstance().setRole(null);
         }
-    }*/
+
+        AppConfig.getInstance().setServerUrl(BuildConfig.SERVER_URL);
+        AppConfig.getInstance().setProviderAuthority(getString(R.string.authority_provider));
+        AppConfig.getInstance().setSyncAccountType(BuildConfig.SYNC_ACCOUNT_TYPE);
+        AppConfig.getInstance().setAppName(getString(R.string.app_name));
+    }
 }
