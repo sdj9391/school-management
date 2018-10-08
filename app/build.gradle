@@ -54,7 +54,7 @@ android {
 
             signingConfig signingConfigs.config
 
-            buildConfigField "String", "SERVER_URL", "\"http://school.management.com/index.php/\""
+            buildConfigField "String", "SERVER_URL", "\"https://schoolapp-2018.herokuapp.com/\""
             resValue "string", "authority_provider", "\"com.school.management.fileprovider\""
             resValue "string", "app_name", "\"School Management\""
         }
@@ -70,7 +70,7 @@ android {
             // usually show in About section of the app
             versionNameSuffix = '.DEBUG'
 
-            buildConfigField "String", "SERVER_URL", "\"http://school.management.com/index.php/\""
+            buildConfigField "String", "SERVER_URL", "\"https://schoolapp-2018.herokuapp.com/\""
             resValue "string", "authority_provider", "\"com.school.management.debug.fileprovider\""
             resValue "string", "app_name", "\"School Management Debug\""
         }

@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_logo">
 
-        <com.schoolmanagement.android.widgets.EditTextRegular
+        <EditText
             android:id="@+id/input_mobile_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_layout_mobile_num">
 
-        <com.schoolmanagement.android.widgets.EditTextRegular
+        <EditText
             android:id="@+id/input_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

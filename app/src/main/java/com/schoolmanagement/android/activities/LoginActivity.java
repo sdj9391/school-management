@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.google.gson.Gson;
+import com.schoolmanagement.android.MultiDexApp;
 import com.schoolmanagement.android.R;
 import com.schoolmanagement.android.models.User;
 import com.schoolmanagement.android.restapis.AppApiInstance;
@@ -55,7 +56,7 @@ public class LoginActivity extends BaseActivity {
         View signInButton = findViewById(R.id.button_sing_in);
         signInButton.setOnClickListener(onSignInClickListener);
 
-        mobileNumEditText = findViewById(R.id.input_layout_mobile_num);
+        mobileNumEditText = findViewById(R.id.input_mobile_num);
         passwordEditText = findViewById(R.id.input_password);
     }
 
@@ -101,12 +102,12 @@ public class LoginActivity extends BaseActivity {
 
         DebugLog.v("Data: " + new Gson().toJson(user));
         // reinitialize config after successful auth
-        // ((MultiDexApp) this.getApplicationContext()).initAppConfig();
+        ((MultiDexApp) this.getApplicationContext()).initAppConfig();
         setResult(Activity.RESULT_OK);
-        toDashboard();
+        toMainActivity();
     }
 
-    protected void toDashboard() {
+    protected void toMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();

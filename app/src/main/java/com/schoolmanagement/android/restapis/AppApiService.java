@@ -4,8 +4,11 @@ import com.schoolmanagement.android.models.User;
 
 import io.reactivex.Observable;
 import retrofit2.Response;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
 
 public interface AppApiService {
 
-    Observable<Response<User>> login(User user);
+    @POST("/auth/authenticate")
+    Observable<Response<User>> login(@Body User user);
 }

@@ -8,7 +8,10 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.schoolmanagement.android.R;
+import com.schoolmanagement.android.models.AppConfig;
 import com.schoolmanagement.android.models.User;
+import com.schoolmanagement.android.sync.AppAccountManager;
+
 public class SplashActivity extends AppCompatActivity {
     private static final int DELAY_MS = 1800;
 
@@ -23,9 +26,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void dispatchActivity() {
-        User user = new User();;
+        User user = AppAccountManager.getInstance(this, AppConfig.getInstance().getSyncAccountType()).getUserDetails();
         Intent intent = new Intent();
-        if (user == null) {
+        if (user != null) {
             intent.setClass(this, LoginActivity.class);
         } else {
             intent.setClass(this, MainActivity.class);

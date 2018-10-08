@@ -29,7 +29,7 @@ public class MultiDexApp extends MultiDexApplication {
         super.onCreate();
 
         initImageLoader(this);
-        initHealthPoleConfig();
+        initAppConfig();
 
         // disable logging of universal image loader
         L.writeLogs(false);
@@ -95,16 +95,18 @@ public class MultiDexApp extends MultiDexApplication {
      * To initialize {@link AppConfig} object
      * which is user to store jwtToken and other user information.
      */
-    public void initHealthPoleConfig() {
-        User user = new AppAccountManager(getBaseContext(), "" /*BuildConfig.SYNC_ACCOUNT_TYPE*/).getUserDetails();
+    public void initAppConfig() {
+        AppConfig.getInstance().setServerUrl(BuildConfig.SERVER_URL);
+        AppConfig.getInstance().setProviderAuthority(getString(R.string.authority_provider));
+        AppConfig.getInstance().setSyncAccountType(BuildConfig.SYNC_ACCOUNT_TYPE);
+        AppConfig.getInstance().setAppName(getString(R.string.app_name));
+
+        User user = new AppAccountManager(getBaseContext(), BuildConfig.SYNC_ACCOUNT_TYPE).getUserDetails();
         if (user != null) {
             String token = user.getToken();
             String mobileNumber = user.getMobileNumber();
 
-            if (AppUtils.isEmpty(token) /*||
-                    BootUtils.isEmpty(mobileNumber)*/) {
-                // we have stopped checking mobile number validity here since
-                // Nov 2017, as decided to move to email based registration.
+            if (AppUtils.isEmpty(token)) {
                 DebugLog.e("User is logged in. However, something is null jwtToken: " + token +
                         " mobileNumber: " + mobileNumber);
             } else {
@@ -115,10 +117,5 @@ public class MultiDexApp extends MultiDexApplication {
             AppConfig.getInstance().setJwtToken(null);
             AppConfig.getInstance().setRole(null);
         }
-
-        AppConfig.getInstance().setServerUrl(BuildConfig.SERVER_URL);
-        AppConfig.getInstance().setProviderAuthority(getString(R.string.authority_provider));
-        AppConfig.getInstance().setSyncAccountType(BuildConfig.SYNC_ACCOUNT_TYPE);
-        AppConfig.getInstance().setAppName(getString(R.string.app_name));
     }
 }

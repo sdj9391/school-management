@@ -78,7 +78,7 @@ public class AppApiInstance {
             Map<String, String> headersMap = getHeadersMap(original.headers());
 
             if (!AppUtils.isEmpty(authHeader)) {
-                headersMap.put("Authorization", "Bearer " + authHeader);
+                headersMap.put("Authorization", "Basic " + authHeader);
                 DebugLog.w("AuthHeader found");
             } else {
                 DebugLog.w("If its login or register api call Token will be null otherwise its error");
@@ -97,13 +97,9 @@ public class AppApiInstance {
         HashMap<String, String> headersMap = new HashMap<>();
 
         if (headers != null) {
-            // DebugLog.i("headers.size: " + headers.size());
             Set<String> names = headers.names();
-            if (names != null) {
-                for (String name : names) {
-                    // DebugLog.i("name: " + name);
-                    headersMap.put(name, headers.get(name));
-                }
+            for (String name : names) {
+                headersMap.put(name, headers.get(name));
             }
         }
 
@@ -111,7 +107,6 @@ public class AppApiInstance {
     }
 
     private static Headers toHeaders(Map<String, String> headersMap) {
-        Headers headers = Headers.of(headersMap);
-        return headers;
+        return Headers.of(headersMap);
     }
 }
