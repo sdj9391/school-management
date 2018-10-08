@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.crashlytics.android.Crashlytics;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -15,6 +16,8 @@ import com.schoolmanagement.android.models.User;
 import com.schoolmanagement.android.sync.AppAccountManager;
 import com.schoolmanagement.android.utils.AppUtils;
 import com.schoolmanagement.android.utils.DebugLog;
+
+import io.fabric.sdk.android.Fabric;
 
 public class MultiDexApp extends MultiDexApplication {
 
@@ -35,11 +38,11 @@ public class MultiDexApp extends MultiDexApplication {
         L.writeLogs(false);
 
         // To enable Crashlytics debugger manually
-        /*final Fabric fabric = new Fabric.Builder(this)
+        final Fabric fabric = new Fabric.Builder(this)
                 .kits(new Crashlytics())
                 .debuggable(true)           // Enables Crashlytics debugger
                 .build();
-        Fabric.with(fabric);*/
+        Fabric.with(fabric);
 
         /*if (!BuildConfig.DEBUG) {
             FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this);
