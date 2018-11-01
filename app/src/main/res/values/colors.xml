@@ -11,5 +11,6 @@
     // Text Colors
     <color name="title_text_color">#1D2129</color>
     <color name="subtitle_text_color">#9197A3</color>
+    <color name="hint_text_color">@color/subtitle_text_color</color>
 
 </resources>
