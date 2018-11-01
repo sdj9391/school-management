@@ -10,8 +10,17 @@
     <string name="error_general">Sorry! Something went wrong</string>
     <string name="msg_no_internet">No internet connection</string>
     <string name="hint_mobile_num">Enter mobile number</string>
+    <string name="hint_phone">Phone</string>
     <string name="hint_password">Enter password</string>
+    <string name="hint_otp">otp</string>
     <string name="label_sing_in">Sign In</string>
     <string name="error_required">Required</string>
     <string name="error_invalid_mobile_num">Invalid Mobile Number</string>
+    <string name="label_welcome_back">Welcome Back!</string>
+    <string name="sign_in_to_continue_with_chalk_boards">Sign In to continue with Chalk &amp; Boards</string>
+    <string name="label_teacher">Teacher</string>
+    <string name="label_parent">Parent</string>
+    <string name="label_student">Student</string>
+    <string name="label_dont_have_account">Don\'t  have an account?</string>
+    <string name="label_sign_up"><u>Sign Up</u></string>
 </resources>

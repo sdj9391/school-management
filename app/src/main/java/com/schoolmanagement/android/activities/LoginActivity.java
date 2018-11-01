@@ -53,7 +53,7 @@ public class LoginActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        View signInButton = findViewById(R.id.button_sing_in);
+        View signInButton = findViewById(R.id.button_sign_in);
         signInButton.setOnClickListener(onSignInClickListener);
 
         mobileNumEditText = findViewById(R.id.input_mobile_num);
