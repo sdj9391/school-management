@@ -10,7 +10,7 @@
         android:id="@+id/text_view_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/primary_color"
         android:gravity="center"
         android:padding="12dp"
         android:text="@string/sign_up_title"
@@ -23,7 +23,8 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="36dp">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/layout_first_name"
@@ -31,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="36dp"
+                android:layout_marginEnd="12dp"
                 android:hint="@string/label_first_name"
                 android:textColorHint="@color/hint_text_color"
                 app:layout_constraintEnd_toStartOf="@+id/layout_last_name"
@@ -50,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="36dp"
+                android:layout_marginEnd="12dp"
                 android:hint="@string/label_last_name"
                 android:textColorHint="@color/hint_text_color"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -64,11 +67,12 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/layout_email_name"
+                android:id="@+id/layout_email"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
                 android:hint="@string/label_email"
                 android:textColorHint="@color/hint_text_color"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -76,7 +80,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/layout_last_name">
 
                 <com.schoolmanagement.android.widgets.EditTextRegular
-                    android:id="@+id/edit_email_name"
+                    android:id="@+id/edit_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress" />
@@ -88,11 +92,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
                 android:hint="@string/label_password"
                 android:textColorHint="@color/hint_text_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_email_name">
+                app:layout_constraintTop_toBottomOf="@+id/layout_email">
 
                 <com.schoolmanagement.android.widgets.EditTextRegular
                     android:id="@+id/edit_password"
@@ -107,6 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
                 android:hint="@string/label_mobile_num"
                 android:textColorHint="@color/hint_text_color"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -127,6 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
                 android:hint="@string/label_school_name"
                 android:textColorHint="@color/hint_text_color"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -146,6 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
                 android:hint="@string/label_specialization"
                 android:textColorHint="@color/hint_text_color"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -229,7 +237,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="36dp"
                 android:layout_marginEnd="12dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/primary_color"
                 android:gravity="center"
                 android:padding="12dp"
                 android:text="@string/label_get_started"

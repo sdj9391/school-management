@@ -3,7 +3,9 @@ package com.schoolmanagement.android.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.schoolmanagement.android.MultiDexApp;
@@ -22,31 +24,36 @@ public class LoginActivity extends BaseActivity {
 
     public static final String INTENT_EXTRA_EMAIL = "intent_extra_email";
 
-    private EditText mobileNumEditText, passwordEditText;
-    private View.OnClickListener onSignInClickListener = new View.OnClickListener() {
+    private EditText emailEditText, passwordEditText;
+    private TextView teacherRoleOption, parentRoleOption, studentRoleOption;
+    private String userRole = null;
+
+    private View.OnClickListener onSignInClickListener = v -> validateData();
+    private View.OnClickListener onSignUpClickListener = v -> toSignUpActivity();
+    private View.OnClickListener onRoleClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
-            String mobileNum = mobileNumEditText.getText().toString().trim();
-            if (AppUtils.isEmpty(mobileNum)) {
-                mobileNumEditText.setError(getString(R.string.error_required));
-                mobileNumEditText.requestFocus();
-                return;
+        public void onClick(View view) {
+            teacherRoleOption.setBackground(getResources().getDrawable(R.drawable.bg_outline_primary));
+            parentRoleOption.setBackground(getResources().getDrawable(R.drawable.bg_outline_primary));
+            studentRoleOption.setBackground(getResources().getDrawable(R.drawable.bg_outline_primary));
+            teacherRoleOption.setTextColor(getResources().getColor(R.color.subtitle_text_color));
+            parentRoleOption.setTextColor(getResources().getColor(R.color.subtitle_text_color));
+            studentRoleOption.setTextColor(getResources().getColor(R.color.subtitle_text_color));
+            view.setBackground(getResources().getDrawable(R.drawable.bg_filled_primary));
+            ((TextView) view).setTextColor(getResources().getColor(android.R.color.white));
+            switch (view.getId()) {
+                case R.id.role_teacher:
+                    userRole = User.USER_ROLE_TEACHER;
+                    break;
+                case R.id.role_parent:
+                    userRole = User.USER_ROLE_PARENT;
+                    break;
+                case R.id.role_student:
+                    userRole = User.USER_ROLE_STUDENT;
+                    break;
+                default:
+                    userRole = null;
             }
-
-            if (!AppUtils.isValidMobileNum(mobileNum)) {
-                mobileNumEditText.setError(getString(R.string.error_invalid_mobile_num));
-                mobileNumEditText.requestFocus();
-                return;
-            }
-
-            String password = passwordEditText.getText().toString().trim();
-            if (AppUtils.isEmpty(password)) {
-                passwordEditText.setError(getString(R.string.error_required));
-                passwordEditText.requestFocus();
-                return;
-            }
-
-            login(mobileNum, password);
         }
     };
 
@@ -54,27 +61,80 @@ public class LoginActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        View signInButton = findViewById(R.id.button_sing_in);
+        Button signInButton = findViewById(R.id.button_sign_in);
         signInButton.setOnClickListener(onSignInClickListener);
 
-        mobileNumEditText = findViewById(R.id.input_mobile_num);
-        passwordEditText = findViewById(R.id.input_password);
+        View signUpButton = findViewById(R.id.text_view_sign_up);
+        signUpButton.setOnClickListener(onSignUpClickListener);
+
+        emailEditText = findViewById(R.id.edit_email);
+        passwordEditText = findViewById(R.id.edit_password);
+        teacherRoleOption = findViewById(R.id.role_teacher);
+        teacherRoleOption.setOnClickListener(onRoleClickListener);
+        parentRoleOption = findViewById(R.id.role_parent);
+        parentRoleOption.setOnClickListener(onRoleClickListener);
+        studentRoleOption = findViewById(R.id.role_student);
+        studentRoleOption.setOnClickListener(onRoleClickListener);
 
         String email = getIntent().getStringExtra(INTENT_EXTRA_EMAIL);
         if (AppUtils.isEmpty(email)) {
-            mobileNumEditText.setText(email);
+            emailEditText.setText(email);
         }
     }
 
-    private void login(String userName, String password) {
-        if (AppUtils.isEmpty(userName) || AppUtils.isEmpty(password)) {
-            DebugLog.e("User name or password is empty");
+    protected void toMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void toSignUpActivity() {
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void validateData() {
+        String email = AppUtils.getMandatoryDataFromEditText(this, emailEditText);
+        if (email == null) {
+            return;
+        }
+
+        if (!AppUtils.isEmailValid(email)) {
+            emailEditText.setError(getString(R.string.error_not_valid));
+            emailEditText.requestFocus();
+            return;
+        }
+
+        String password = AppUtils.getMandatoryDataFromEditText(this, passwordEditText);
+        if (password == null) {
+            return;
+        }
+
+        if (password.length() < SignUpActivity.MIN_PASSWORD_LENGTH) {
+            passwordEditText.setError(getString(R.string.error_min_eight_char));
+            passwordEditText.requestFocus();
+            return;
+        }
+
+        if (AppUtils.isEmpty(userRole)) {
+            showMessage(getString(R.string.msg_select_role));
             return;
         }
 
         User user = new User();
-        user.setUsername(userName);
+        user.setEmail(email);
         user.setPassword(password);
+        user.setRole(userRole);
+
+        login(user);
+    }
+
+    private void login(User user) {
+        if (user == null) {
+            DebugLog.e("User found null");
+            return;
+        }
 
         AppUtils.showProgressDialog(this, null, getString(R.string.msg_please_wait), true);
         Observable<Response<User>> observable = AppApiInstance.getApi().login(user);
@@ -110,11 +170,5 @@ public class LoginActivity extends BaseActivity {
         // reinitialize config after successful auth
         ((MultiDexApp) this.getApplicationContext()).initAppConfig();
         toMainActivity();
-    }
-
-    protected void toMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
     }
 }

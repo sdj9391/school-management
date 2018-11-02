@@ -26,9 +26,10 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void dispatchActivity() {
-        User user = AppAccountManager.getInstance(this, AppConfig.getInstance().getSyncAccountType()).getUserDetails();
+        User user = AppAccountManager.getInstance(this,
+                AppConfig.getInstance().getSyncAccountType()).getUserDetails();
         Intent intent = new Intent();
-        if (user != null) {
+        if (user == null) {
             intent.setClass(this, LoginActivity.class);
         } else {
             intent.setClass(this, MainActivity.class);

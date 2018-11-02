@@ -1,7 +1,5 @@
 package com.schoolmanagement.android.activities;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +14,6 @@ import com.schoolmanagement.android.models.User;
 import com.schoolmanagement.android.restapis.AppApiInstance;
 import com.schoolmanagement.android.utils.AppUtils;
 import com.schoolmanagement.android.utils.DebugLog;
-import com.schoolmanagement.android.utils.TemporaryCache;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -25,30 +22,32 @@ import retrofit2.Response;
 
 public class SignUpActivity extends BaseActivity {
 
-    private static final int MIN_PASSWORD_LENGTH = 8;
-    private EditText firstNameEditText, lastNameExitText, emailExitText, passwordExitText,
-            mobileNumExitText, schoolNameExitText, specializationExitText;
+    static final int MIN_PASSWORD_LENGTH = 8;
+    private EditText firstNameEditText, lastNameEditText, emailEditText, passwordEditText,
+            mobileNumEditText, schoolNameEditText, specializationEditText;
     private TextView teacherRoleOption, parentRoleOption, studentRoleOption;
     private String userRole = null;
 
     private View.OnClickListener onSignUpClickListener = v -> validateData();
     private View.OnClickListener onRoleClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick(View view) {
             teacherRoleOption.setBackground(getResources().getDrawable(R.drawable.bg_outline_primary));
             parentRoleOption.setBackground(getResources().getDrawable(R.drawable.bg_outline_primary));
             studentRoleOption.setBackground(getResources().getDrawable(R.drawable.bg_outline_primary));
-            switch (v.getId()) {
+            teacherRoleOption.setTextColor(getResources().getColor(R.color.subtitle_text_color));
+            parentRoleOption.setTextColor(getResources().getColor(R.color.subtitle_text_color));
+            studentRoleOption.setTextColor(getResources().getColor(R.color.subtitle_text_color));
+            view.setBackground(getResources().getDrawable(R.drawable.bg_filled_primary));
+            ((TextView) view).setTextColor(getResources().getColor(android.R.color.white));
+            switch (view.getId()) {
                 case R.id.role_teacher:
-                    teacherRoleOption.setBackground(getResources().getDrawable(R.drawable.bg_filled_primary));
                     userRole = User.USER_ROLE_TEACHER;
                     break;
                 case R.id.role_parent:
-                    parentRoleOption.setBackground(getResources().getDrawable(R.drawable.bg_filled_primary));
                     userRole = User.USER_ROLE_PARENT;
                     break;
                 case R.id.role_student:
-                    studentRoleOption.setBackground(getResources().getDrawable(R.drawable.bg_filled_primary));
                     userRole = User.USER_ROLE_STUDENT;
                     break;
                 default:
@@ -62,18 +61,26 @@ public class SignUpActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         firstNameEditText = findViewById(R.id.edit_first_name);
-        lastNameExitText = findViewById(R.id.edit_last_name);
-        emailExitText = findViewById(R.id.edit_email_name);
-        passwordExitText = findViewById(R.id.edit_password);
-        mobileNumExitText = findViewById(R.id.edit_mobile_num);
-        schoolNameExitText = findViewById(R.id.edit_school);
-        specializationExitText = findViewById(R.id.edit_specialization);
+        lastNameEditText = findViewById(R.id.edit_last_name);
+        emailEditText = findViewById(R.id.edit_email);
+        passwordEditText = findViewById(R.id.edit_password);
+        mobileNumEditText = findViewById(R.id.edit_mobile_num);
+        schoolNameEditText = findViewById(R.id.edit_school);
+        specializationEditText = findViewById(R.id.edit_specialization);
         teacherRoleOption = findViewById(R.id.role_teacher);
         teacherRoleOption.setOnClickListener(onRoleClickListener);
         parentRoleOption = findViewById(R.id.role_parent);
+        parentRoleOption.setOnClickListener(onRoleClickListener);
         studentRoleOption = findViewById(R.id.role_student);
+        studentRoleOption.setOnClickListener(onRoleClickListener);
         Button signUpButton = findViewById(R.id.button_sign_up);
         signUpButton.setOnClickListener(onSignUpClickListener);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        toLoginActivity(null);
     }
 
     private void validateData() {
@@ -82,50 +89,50 @@ public class SignUpActivity extends BaseActivity {
             return;
         }
 
-        String lastName = AppUtils.getMandatoryDataFromEditText(this, lastNameExitText);
+        String lastName = AppUtils.getMandatoryDataFromEditText(this, lastNameEditText);
         if (lastName == null) {
             return;
         }
 
-        String email = AppUtils.getMandatoryDataFromEditText(this, emailExitText);
+        String email = AppUtils.getMandatoryDataFromEditText(this, emailEditText);
         if (email == null) {
             return;
         }
 
-        if (AppUtils.isEmailValid(email)) {
-            emailExitText.setError(getString(R.string.error_not_valid));
-            emailExitText.requestFocus();
+        if (!AppUtils.isEmailValid(email)) {
+            emailEditText.setError(getString(R.string.error_not_valid));
+            emailEditText.requestFocus();
             return;
         }
 
-        String password = AppUtils.getMandatoryDataFromEditText(this, passwordExitText);
+        String password = AppUtils.getMandatoryDataFromEditText(this, passwordEditText);
         if (password == null) {
             return;
         }
 
         if (password.length() < MIN_PASSWORD_LENGTH) {
-            passwordExitText.setError(getString(R.string.error_min_eight_char));
-            passwordExitText.requestFocus();
+            passwordEditText.setError(getString(R.string.error_min_eight_char));
+            passwordEditText.requestFocus();
             return;
         }
 
-        String mobileNum = AppUtils.getMandatoryDataFromEditText(this, mobileNumExitText);
+        String mobileNum = AppUtils.getMandatoryDataFromEditText(this, mobileNumEditText);
         if (mobileNum == null) {
             return;
         }
 
-        if (AppUtils.isValidMobileNum(mobileNum)) {
-            mobileNumExitText.setError(getString(R.string.error_not_valid));
-            mobileNumExitText.requestFocus();
+        if (!AppUtils.isValidMobileNum(mobileNum)) {
+            mobileNumEditText.setError(getString(R.string.error_not_valid));
+            mobileNumEditText.requestFocus();
             return;
         }
 
-        String schoolName = AppUtils.getMandatoryDataFromEditText(this, schoolNameExitText);
+        String schoolName = AppUtils.getMandatoryDataFromEditText(this, schoolNameEditText);
         if (schoolName == null) {
             return;
         }
 
-        String specialization = AppUtils.getMandatoryDataFromEditText(this, specializationExitText);
+        String specialization = AppUtils.getMandatoryDataFromEditText(this, specializationEditText);
         if (specialization == null) {
             return;
         }
