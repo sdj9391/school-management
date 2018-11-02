@@ -19,6 +19,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.schoolmanagement.android.R;
@@ -34,6 +35,8 @@ import java.net.HttpURLConnection;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -181,6 +184,11 @@ public class AppUtils {
         return TextUtils.isEmpty(string)
                 || string.length() == 0
                 || string.trim().length() == 0;
+    }
+
+    public static boolean isEmpty(CharSequence charSequence) {
+        return TextUtils.isEmpty(charSequence)
+                || charSequence.length() == 0;
     }
 
     public static void hideSoftKeyboard(Activity activity) {
@@ -487,5 +495,41 @@ public class AppUtils {
 
     public static boolean isValidMobileNum(String mobileNum) {
         return mobileNum != null && mobileNum.length() == 10;
+    }
+
+    public static boolean isEmailValid(String email) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+
+
+    public static String getMandatoryDataFromEditText(Context context, EditText editText) {
+        return getMandatoryDataFromEditText(editText, context.getString(R.string.error_required));
+    }
+
+    public static String getMandatoryDataFromEditText(EditText editText, String errorMsg) {
+        if (editText == null) {
+            DebugLog.e("editText found null");
+            return null;
+        }
+
+        CharSequence charSequence = editText.getText();
+        if (AppUtils.isEmpty(charSequence)) {
+            editText.setError(errorMsg);
+            editText.requestFocus();
+            return null;
+        }
+
+        String firstName = charSequence.toString();
+        if (AppUtils.isEmpty(firstName)) {
+            editText.setError(errorMsg);
+            editText.requestFocus();
+            return null;
+        }
+
+        return firstName.trim();
     }
 }

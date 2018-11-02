@@ -11,4 +11,7 @@ public interface AppApiService {
 
     @POST("/auth/authenticate")
     Observable<Response<User>> login(@Body User user);
+
+    @POST("/users")
+    Observable<Response<User>> userRegistration(@Body User user);
 }

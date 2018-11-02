@@ -1,19 +1,35 @@
 package com.schoolmanagement.android.activities;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.schoolmanagement.android.MultiDexApp;
 import com.schoolmanagement.android.R;
+import com.schoolmanagement.android.models.User;
+import com.schoolmanagement.android.restapis.AppApiInstance;
+import com.schoolmanagement.android.utils.AppUtils;
+import com.schoolmanagement.android.utils.DebugLog;
+import com.schoolmanagement.android.utils.TemporaryCache;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 public class SignUpActivity extends BaseActivity {
 
+    private static final int MIN_PASSWORD_LENGTH = 8;
     private EditText firstNameEditText, lastNameExitText, emailExitText, passwordExitText,
             mobileNumExitText, schoolNameExitText, specializationExitText;
     private TextView teacherRoleOption, parentRoleOption, studentRoleOption;
-    private String roleSelected = null;
+    private String userRole = null;
 
     private View.OnClickListener onSignUpClickListener = v -> validateData();
     private View.OnClickListener onRoleClickListener = new View.OnClickListener() {
@@ -25,18 +41,18 @@ public class SignUpActivity extends BaseActivity {
             switch (v.getId()) {
                 case R.id.role_teacher:
                     teacherRoleOption.setBackground(getResources().getDrawable(R.drawable.bg_filled_primary));
-                    roleSelected = getString(R.string.label_teacher);
+                    userRole = User.USER_ROLE_TEACHER;
                     break;
                 case R.id.role_parent:
                     parentRoleOption.setBackground(getResources().getDrawable(R.drawable.bg_filled_primary));
-                    roleSelected = getString(R.string.label_parent);
+                    userRole = User.USER_ROLE_PARENT;
                     break;
                 case R.id.role_student:
                     studentRoleOption.setBackground(getResources().getDrawable(R.drawable.bg_filled_primary));
-                    roleSelected = getString(R.string.label_student);
+                    userRole = User.USER_ROLE_STUDENT;
                     break;
                 default:
-                    roleSelected = null;
+                    userRole = null;
             }
         }
     };
@@ -61,6 +77,123 @@ public class SignUpActivity extends BaseActivity {
     }
 
     private void validateData() {
+        String firstName = AppUtils.getMandatoryDataFromEditText(this, firstNameEditText);
+        if (firstName == null) {
+            return;
+        }
 
+        String lastName = AppUtils.getMandatoryDataFromEditText(this, lastNameExitText);
+        if (lastName == null) {
+            return;
+        }
+
+        String email = AppUtils.getMandatoryDataFromEditText(this, emailExitText);
+        if (email == null) {
+            return;
+        }
+
+        if (AppUtils.isEmailValid(email)) {
+            emailExitText.setError(getString(R.string.error_not_valid));
+            emailExitText.requestFocus();
+            return;
+        }
+
+        String password = AppUtils.getMandatoryDataFromEditText(this, passwordExitText);
+        if (password == null) {
+            return;
+        }
+
+        if (password.length() < MIN_PASSWORD_LENGTH) {
+            passwordExitText.setError(getString(R.string.error_min_eight_char));
+            passwordExitText.requestFocus();
+            return;
+        }
+
+        String mobileNum = AppUtils.getMandatoryDataFromEditText(this, mobileNumExitText);
+        if (mobileNum == null) {
+            return;
+        }
+
+        if (AppUtils.isValidMobileNum(mobileNum)) {
+            mobileNumExitText.setError(getString(R.string.error_not_valid));
+            mobileNumExitText.requestFocus();
+            return;
+        }
+
+        String schoolName = AppUtils.getMandatoryDataFromEditText(this, schoolNameExitText);
+        if (schoolName == null) {
+            return;
+        }
+
+        String specialization = AppUtils.getMandatoryDataFromEditText(this, specializationExitText);
+        if (specialization == null) {
+            return;
+        }
+
+        if (AppUtils.isEmpty(userRole)) {
+            showMessage(getString(R.string.msg_select_role));
+            return;
+        }
+
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setMobileNumber(mobileNum);
+        user.setSchoolName(schoolName);
+        user.setSpecialization(specialization);
+        user.setRole(userRole);
+
+        signUpApiCall(user);
+    }
+
+    private void signUpApiCall(User user) {
+        if (user == null) {
+            DebugLog.e("User found null");
+            return;
+        }
+
+        AppUtils.showProgressDialog(this, null, getString(R.string.msg_please_wait), true);
+        Observable<Response<User>> observable = AppApiInstance.getApi().userRegistration(user);
+        observable.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::handleResponse, this::handleError);
+    }
+
+    private void handleError(Throwable throwable) {
+        AppUtils.dismissProgressDialog();
+        DebugLog.e("Error: " + AppUtils.parse(this, throwable));
+        showMessage(AppUtils.parse(this, throwable));
+    }
+
+    private void handleResponse(Response<User> response) {
+        AppUtils.dismissProgressDialog();
+
+        if (response == null) {
+            showMessage(AppUtils.parse(this, response));
+            return;
+        }
+        if (!response.isSuccessful()) {
+            showMessage(AppUtils.parse(this, response));
+            return;
+        }
+        User user = response.body();
+        if (user == null) {
+            DebugLog.e("User found null");
+            return;
+        }
+
+        DebugLog.v("Data: " + new Gson().toJson(user));
+        // reinitialize config after successful auth
+        ((MultiDexApp) this.getApplicationContext()).initAppConfig();
+        toLoginActivity(user.getEmail());
+    }
+
+    private void toLoginActivity(String email) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra(LoginActivity.INTENT_EXTRA_EMAIL, email);
+        startActivity(intent);
+        finish();
     }
 }

@@ -10,7 +10,8 @@
     <string name="error_general">Sorry! Something went wrong</string>
     <string name="msg_no_internet">No internet connection</string>
 
-    <string name="error_required">Required</string>
+    <string name="error_required">Required!</string>
+    <string name="error_not_valid">Not Valid!</string>
     <string name="error_invalid_mobile_num">Invalid Mobile Number</string>
     <string name="sign_up_title">Sign up with Chalk Board</string>
     <string name="label_mobile_num">Mobile number</string>
@@ -26,4 +27,6 @@
     <string name="label_teacher">Teacher</string>
     <string name="label_parent">Parent</string>
     <string name="label_student">Student</string>
+    <string name="error_min_eight_char">Required minimum 8 character long!</string>
+    <string name="msg_select_role">Select your role!</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.schoolmanagement.android.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +19,8 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity {
+
+    public static final String INTENT_EXTRA_EMAIL = "intent_extra_email";
 
     private EditText mobileNumEditText, passwordEditText;
     private View.OnClickListener onSignInClickListener = new View.OnClickListener() {
@@ -58,6 +59,11 @@ public class LoginActivity extends BaseActivity {
 
         mobileNumEditText = findViewById(R.id.input_mobile_num);
         passwordEditText = findViewById(R.id.input_password);
+
+        String email = getIntent().getStringExtra(INTENT_EXTRA_EMAIL);
+        if (AppUtils.isEmpty(email)) {
+            mobileNumEditText.setText(email);
+        }
     }
 
     private void login(String userName, String password) {
@@ -70,8 +76,8 @@ public class LoginActivity extends BaseActivity {
         user.setUsername(userName);
         user.setPassword(password);
 
-        Observable<Response<User>> observable = AppApiInstance.getApi().login(user);
         AppUtils.showProgressDialog(this, null, getString(R.string.msg_please_wait), true);
+        Observable<Response<User>> observable = AppApiInstance.getApi().login(user);
         observable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse, this::handleError);
@@ -103,7 +109,6 @@ public class LoginActivity extends BaseActivity {
         DebugLog.v("Data: " + new Gson().toJson(user));
         // reinitialize config after successful auth
         ((MultiDexApp) this.getApplicationContext()).initAppConfig();
-        setResult(Activity.RESULT_OK);
         toMainActivity();
     }
 
