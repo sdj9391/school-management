@@ -8,9 +8,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.schoolmanagement.android.R;
-import com.schoolmanagement.android.models.AppConfig;
 import com.schoolmanagement.android.models.User;
 import com.schoolmanagement.android.sync.AppAccountManager;
+import com.schoolmanagement.android.utils.AppConfig;
 
 public class SplashActivity extends AppCompatActivity {
     private static final int DELAY_MS = 1800;
