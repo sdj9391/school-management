@@ -9,6 +9,9 @@ import retrofit2.http.POST;
 
 public interface AppApiService {
 
-    @POST("/auth/authenticate")
+    @POST("/users/email/login")
     Observable<Response<User>> login(@Body User user);
+
+    @POST("/users")
+    Observable<Response<User>> userRegistration(@Body User user);
 }

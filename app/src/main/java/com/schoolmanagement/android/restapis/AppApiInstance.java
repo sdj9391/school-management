@@ -53,7 +53,7 @@ public class AppApiInstance {
     private static OkHttpClient getHttpClient() {
         HttpLoggingInterceptor interceptorLogging = new HttpLoggingInterceptor();
         interceptorLogging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        String token = AppConfig.getInstance().getToken();
+        String token = AppConfig.getInstance().getJwtToken();
         Interceptor interceptorRequest = getInterceptor(token);
 
         return new OkHttpClient.Builder()

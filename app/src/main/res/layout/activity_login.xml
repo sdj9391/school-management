@@ -1,149 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="@android:color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-    <android.support.constraint.ConstraintLayout
+    <com.schoolmanagement.android.widgets.TextViewMedium
+        android:id="@+id/text_view_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/label_welcome_back"
+        android:textColor="@color/primary_color"
+        android:textSize="@dimen/font_very_big" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/text_view_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="@string/label_welcome_back"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/font_very_big"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/text_view_sub_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/sign_in_to_continue_with_chalk_boards"
-            android:textColor="@color/black"
-            android:textSize="@dimen/font_small"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_title" />
-
-        <LinearLayout
-            android:id="@+id/layout_section"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:divider="@color/divider_grey"
-            android:orientation="horizontal"
-            android:showDividers="middle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_sub_title">
-
-            <TextView
-                android:id="@+id/text_view_teacher"
-                style="@style/HeaderTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_teacher" />
-
-            <TextView
-                android:id="@+id/text_view_parent"
-                style="@style/HeaderTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_parent" />
-
-            <TextView
-                android:id="@+id/text_view_student"
-                style="@style/HeaderTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_student" />
-        </LinearLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_mobile_num"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_section">
+            android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/input_mobile_num"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_mobile_num"
-                android:inputType="phone"
-                android:maxLength="10" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/input_layout_mobile_num">
-
-            <EditText
-                android:id="@+id/input_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_otp"
-                android:inputType="text|textPassword"
-                android:maxLength="12"
-                android:textAllCaps="true" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <Button
-            android:id="@+id/button_sign_in"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:background="@color/colorPrimary"
-            android:text="@string/label_sing_in"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/font_small"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/input_layout_password" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_sign_in">
-
-            <TextView
+            <com.schoolmanagement.android.widgets.TextViewRegular
+                android:id="@+id/text_view_sub_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/sign_in_to_continue_with_chalk_boards"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.schoolmanagement.android.widgets.TextViewRegular
+                android:id="@+id/role_teacher"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="36dp"
+                android:background="@drawable/bg_outline_primary"
+                android:gravity="center"
                 android:padding="12dp"
-                android:text="@string/label_dont_have_account"
-                android:textSize="@dimen/font_small" />
+                android:text="@string/label_teacher"
+                android:textColor="@color/hint_text_color"
+                android:textSize="@dimen/font_normal"
+                app:layout_constraintEnd_toStartOf="@+id/role_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_sub_title" />
 
-            <TextView
-                android:id="@+id/text_view_sign_up"
-                android:layout_width="wrap_content"
+            <com.schoolmanagement.android.widgets.TextViewRegular
+                android:id="@+id/role_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/bg_outline_primary"
+                android:gravity="center"
                 android:padding="12dp"
-                android:text="@string/label_sign_up"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/font_small" />
-        </LinearLayout>
-    </android.support.constraint.ConstraintLayout>
-</ScrollView>
+                android:text="@string/label_parent"
+                android:textColor="@color/hint_text_color"
+                android:textSize="@dimen/font_normal"
+                app:layout_constraintEnd_toStartOf="@+id/role_student"
+                app:layout_constraintStart_toEndOf="@+id/role_teacher"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_sub_title" />
+
+            <com.schoolmanagement.android.widgets.TextViewRegular
+                android:id="@+id/role_student"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/bg_outline_primary"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="@string/label_student"
+                android:textColor="@color/hint_text_color"
+                android:textSize="@dimen/font_normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/role_parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_sub_title" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_email_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/label_email"
+                android:textColorHint="@color/hint_text_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/role_parent">
+
+                <com.schoolmanagement.android.widgets.EditTextRegular
+                    android:id="@+id/edit_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/label_password"
+                android:textColorHint="@color/hint_text_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_email_name">
+
+                <com.schoolmanagement.android.widgets.EditTextRegular
+                    android:id="@+id/edit_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/button_sign_in"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="12dp"
+                android:background="@color/primary_color"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="@string/label_get_started"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/font_normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_password" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="18dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_sign_in">
+
+                <com.schoolmanagement.android.widgets.TextViewRegular
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:text="@string/label_dont_have_account"
+                    android:textSize="@dimen/font_small" />
+
+                <com.schoolmanagement.android.widgets.TextViewMedium
+                    android:id="@+id/text_view_sign_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:text="@string/label_sign_up"
+                    android:textColor="@color/primary_color"
+                    android:textSize="@dimen/font_small" />
+            </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>

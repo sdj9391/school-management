@@ -1,6 +1,11 @@
 package com.schoolmanagement.android.models;
 
 public class User {
+
+    public static final String USER_ROLE_TEACHER = "Teacher";
+    public static final String USER_ROLE_PARENT = "Parent";
+    public static final String USER_ROLE_STUDENT = "Student";
+
     private long id;
     private String token;
     private String androidNotificationId;
@@ -11,9 +16,13 @@ public class User {
     private String email;
     private String mobileNumber;
     private String name;
+    private String firstName;
+    private String lastName;
     private String role;
     private long dateOfBirth;
     private Photo photo;
+    private String schoolName;
+    private String specialization;
 
     public long getId() {
         return id;
@@ -95,6 +104,22 @@ public class User {
         this.name = name;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getRole() {
         return role;
     }
@@ -117,5 +142,21 @@ public class User {
 
     public void setPhoto(Photo photo) {
         this.photo = photo;
+    }
+
+    public String getSchoolName() {
+        return schoolName;
+    }
+
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
     }
 }

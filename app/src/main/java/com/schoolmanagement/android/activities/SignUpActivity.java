@@ -20,16 +20,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 
-public class LoginActivity extends BaseActivity {
+public class SignUpActivity extends BaseActivity {
 
-    public static final String INTENT_EXTRA_EMAIL = "intent_extra_email";
-
-    private EditText emailEditText, passwordEditText;
+    static final int MIN_PASSWORD_LENGTH = 8;
+    private EditText firstNameEditText, lastNameEditText, emailEditText, passwordEditText,
+            mobileNumEditText, schoolNameEditText, specializationEditText;
     private TextView teacherRoleOption, parentRoleOption, studentRoleOption;
     private String userRole = null;
 
-    private View.OnClickListener onSignInClickListener = v -> validateData();
-    private View.OnClickListener onSignUpClickListener = v -> toSignUpActivity();
+    private View.OnClickListener onSignUpClickListener = v -> validateData();
     private View.OnClickListener onRoleClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -60,41 +59,41 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        Button signInButton = findViewById(R.id.button_sign_in);
-        signInButton.setOnClickListener(onSignInClickListener);
-
-        View signUpButton = findViewById(R.id.text_view_sign_up);
-        signUpButton.setOnClickListener(onSignUpClickListener);
-
+        setContentView(R.layout.activity_sign_up);
+        firstNameEditText = findViewById(R.id.edit_first_name);
+        lastNameEditText = findViewById(R.id.edit_last_name);
         emailEditText = findViewById(R.id.edit_email);
         passwordEditText = findViewById(R.id.edit_password);
+        mobileNumEditText = findViewById(R.id.edit_mobile_num);
+        schoolNameEditText = findViewById(R.id.edit_school);
+        specializationEditText = findViewById(R.id.edit_specialization);
         teacherRoleOption = findViewById(R.id.role_teacher);
         teacherRoleOption.setOnClickListener(onRoleClickListener);
         parentRoleOption = findViewById(R.id.role_parent);
         parentRoleOption.setOnClickListener(onRoleClickListener);
         studentRoleOption = findViewById(R.id.role_student);
         studentRoleOption.setOnClickListener(onRoleClickListener);
-
-        String email = getIntent().getStringExtra(INTENT_EXTRA_EMAIL);
-        if (AppUtils.isEmpty(email)) {
-            emailEditText.setText(email);
-        }
+        Button signUpButton = findViewById(R.id.button_sign_up);
+        signUpButton.setOnClickListener(onSignUpClickListener);
     }
 
-    protected void toMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void toSignUpActivity() {
-        Intent intent = new Intent(this, SignUpActivity.class);
-        startActivity(intent);
-        finish();
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        toLoginActivity(null);
     }
 
     private void validateData() {
+        String firstName = AppUtils.getMandatoryDataFromEditText(this, firstNameEditText);
+        if (firstName == null) {
+            return;
+        }
+
+        String lastName = AppUtils.getMandatoryDataFromEditText(this, lastNameEditText);
+        if (lastName == null) {
+            return;
+        }
+
         String email = AppUtils.getMandatoryDataFromEditText(this, emailEditText);
         if (email == null) {
             return;
@@ -111,9 +110,30 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
-        if (password.length() < SignUpActivity.MIN_PASSWORD_LENGTH) {
+        if (password.length() < MIN_PASSWORD_LENGTH) {
             passwordEditText.setError(getString(R.string.error_min_eight_char));
             passwordEditText.requestFocus();
+            return;
+        }
+
+        String mobileNum = AppUtils.getMandatoryDataFromEditText(this, mobileNumEditText);
+        if (mobileNum == null) {
+            return;
+        }
+
+        if (!AppUtils.isValidMobileNum(mobileNum)) {
+            mobileNumEditText.setError(getString(R.string.error_not_valid));
+            mobileNumEditText.requestFocus();
+            return;
+        }
+
+        String schoolName = AppUtils.getMandatoryDataFromEditText(this, schoolNameEditText);
+        if (schoolName == null) {
+            return;
+        }
+
+        String specialization = AppUtils.getMandatoryDataFromEditText(this, specializationEditText);
+        if (specialization == null) {
             return;
         }
 
@@ -123,21 +143,26 @@ public class LoginActivity extends BaseActivity {
         }
 
         User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
         user.setEmail(email);
         user.setPassword(password);
+        user.setMobileNumber(mobileNum);
+        user.setSchoolName(schoolName);
+        user.setSpecialization(specialization);
         user.setRole(userRole);
 
-        login(user);
+        signUpApiCall(user);
     }
 
-    private void login(User user) {
+    private void signUpApiCall(User user) {
         if (user == null) {
             DebugLog.e("User found null");
             return;
         }
 
         AppUtils.showProgressDialog(this, null, getString(R.string.msg_please_wait), true);
-        Observable<Response<User>> observable = AppApiInstance.getApi().login(user);
+        Observable<Response<User>> observable = AppApiInstance.getApi().userRegistration(user);
         observable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse, this::handleError);
@@ -169,6 +194,13 @@ public class LoginActivity extends BaseActivity {
         DebugLog.v("Data: " + new Gson().toJson(user));
         // reinitialize config after successful auth
         ((MultiDexApp) this.getApplicationContext()).initAppConfig();
-        toMainActivity();
+        toLoginActivity(user.getEmail());
+    }
+
+    private void toLoginActivity(String email) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra(LoginActivity.INTENT_EXTRA_EMAIL, email);
+        startActivity(intent);
+        finish();
     }
 }

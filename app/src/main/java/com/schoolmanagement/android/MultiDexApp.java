@@ -11,9 +11,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.utils.L;
-import com.schoolmanagement.android.models.AppConfig;
 import com.schoolmanagement.android.models.User;
 import com.schoolmanagement.android.sync.AppAccountManager;
+import com.schoolmanagement.android.utils.AppConfig;
 import com.schoolmanagement.android.utils.AppUtils;
 import com.schoolmanagement.android.utils.DebugLog;
 
