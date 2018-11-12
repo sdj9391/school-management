@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:elevation="3dp"
+    app:cardElevation="3dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    app:cardCornerRadius="6dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/school_image" />
+
+        <TextView
+            android:id="@+id/text_view_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@id/layout_overflow"
+            app:layout_constraintStart_toEndOf="@id/image_view"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Excellence School" />
+
+        <TextView
+            android:id="@+id/text_view_sub_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@id/layout_overflow"
+            app:layout_constraintStart_toEndOf="@id/image_view"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_title"
+            tools:text="21st October at 20:31" />
+
+        <LinearLayout
+            android:id="@+id/layout_overflow"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/image_view_option"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_search"
+                android:scaleType="center" />
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>
