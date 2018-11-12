@@ -8,9 +8,11 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.schoolmanagement.android.R;
+import com.schoolmanagement.android.fragments.SchoolListActivity;
 import com.schoolmanagement.android.models.User;
 import com.schoolmanagement.android.sync.AppAccountManager;
 import com.schoolmanagement.android.utils.AppConfig;
+import com.schoolmanagement.android.utils.Constant;
 
 public class SplashActivity extends AppCompatActivity {
     private static final int DELAY_MS = 1800;
@@ -30,7 +32,11 @@ public class SplashActivity extends AppCompatActivity {
                 AppConfig.getInstance().getSyncAccountType()).getUserDetails();
         Intent intent = new Intent();
         if (user == null) {
-            intent.setClass(this, LoginActivity.class);
+            if (Constant.IS_DEMO) {
+                intent.setClass(this, SchoolListActivity.class);
+            } else {
+                intent.setClass(this, LoginActivity.class);
+            }
         } else {
             intent.setClass(this, MainActivity.class);
         }

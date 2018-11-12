@@ -31,9 +31,7 @@ public class CommonActivity extends BaseActivity {
         String fragmentName;
         if (extras != null) {
             fragmentName = extras.getString(INTENT_EXTRAS_FRAGMENT);
-            /*if (AnnouncementFragment.class.getSimpleName().equalsIgnoreCase(fragmentName)) {
-                fragment = new AnnouncementFragment();
-            } else if (AnnouncementDetailsFragment.class.getSimpleName().equalsIgnoreCase(fragmentName)) {
+           /*if (AnnouncementDetailsFragment.class.getSimpleName().equalsIgnoreCase(fragmentName)) {
                 fragment = new AnnouncementDetailsFragment();
             } else if (AssignmentsFragment.class.getSimpleName().equalsIgnoreCase(fragmentName)) {
                 fragment = new AssignmentsFragment();
