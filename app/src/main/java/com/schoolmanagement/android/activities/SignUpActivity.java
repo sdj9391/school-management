@@ -23,7 +23,7 @@ import retrofit2.Response;
 public class SignUpActivity extends BaseActivity {
 
     static final int MIN_PASSWORD_LENGTH = 8;
-    private EditText firstNameEditText, lastNameEditText, emailEditText, passwordEditText,
+    private EditText nameEditText, emailEditText, passwordEditText,
             mobileNumEditText, schoolNameEditText, specializationEditText;
     private TextView teacherRoleOption, parentRoleOption, studentRoleOption;
     private String userRole = null;
@@ -60,8 +60,7 @@ public class SignUpActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        firstNameEditText = findViewById(R.id.edit_first_name);
-        lastNameEditText = findViewById(R.id.edit_last_name);
+        nameEditText = findViewById(R.id.edit_name);
         emailEditText = findViewById(R.id.edit_email);
         passwordEditText = findViewById(R.id.edit_password);
         mobileNumEditText = findViewById(R.id.edit_mobile_num);
@@ -84,13 +83,8 @@ public class SignUpActivity extends BaseActivity {
     }
 
     private void validateData() {
-        String firstName = AppUtils.getMandatoryDataFromEditText(this, firstNameEditText);
-        if (firstName == null) {
-            return;
-        }
-
-        String lastName = AppUtils.getMandatoryDataFromEditText(this, lastNameEditText);
-        if (lastName == null) {
+        String name = AppUtils.getMandatoryDataFromEditText(this, nameEditText);
+        if (name == null) {
             return;
         }
 
@@ -127,7 +121,7 @@ public class SignUpActivity extends BaseActivity {
             return;
         }
 
-        String schoolName = AppUtils.getMandatoryDataFromEditText(this, schoolNameEditText);
+        /*String schoolName = AppUtils.getMandatoryDataFromEditText(this, schoolNameEditText);
         if (schoolName == null) {
             return;
         }
@@ -135,7 +129,7 @@ public class SignUpActivity extends BaseActivity {
         String specialization = AppUtils.getMandatoryDataFromEditText(this, specializationEditText);
         if (specialization == null) {
             return;
-        }
+        }*/
 
         if (AppUtils.isEmpty(userRole)) {
             showMessage(getString(R.string.msg_select_role));
@@ -143,13 +137,12 @@ public class SignUpActivity extends BaseActivity {
         }
 
         User user = new User();
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
+        user.setName(name);
         user.setEmail(email);
         user.setPassword(password);
         user.setMobileNumber(mobileNum);
-        user.setSchoolName(schoolName);
-        user.setSpecialization(specialization);
+        /*user.setSchoolName(schoolName);
+        user.setSpecialization(specialization);*/
         user.setRole(userRole);
 
         signUpApiCall(user);

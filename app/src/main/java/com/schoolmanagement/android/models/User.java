@@ -16,10 +16,8 @@ public class User {
     private String email;
     private String mobileNumber;
     private String name;
-    private String firstName;
-    private String lastName;
     private String role;
-    private long dateOfBirth;
+    private Long dateOfBirth;
     private Photo photo;
     private String schoolName;
     private String specialization;
@@ -104,22 +102,6 @@ public class User {
         this.name = name;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getRole() {
         return role;
     }
@@ -128,11 +110,11 @@ public class User {
         this.role = role;
     }
 
-    public long getDateOfBirth() {
+    public Long getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(long dateOfBirth) {
+    public void setDateOfBirth(Long dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

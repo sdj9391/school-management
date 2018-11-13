@@ -1,5 +1,5 @@
 package com.schoolmanagement.android.utils;
 
 public class Constant {
-    public static boolean IS_DEMO = true;
+    public static boolean IS_DEMO = false;
 }
